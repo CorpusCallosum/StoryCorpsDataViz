@@ -45,45 +45,16 @@
 void testApp::setup(){
     string dataType = "XML";
     
-   /* if(dataType =="XML"){
-        //load and parse XML data file
-        cout << "Load XML file" << endl;
-        string message;
-        if( XML.loadFile("sc_data.xml") ){
-            message = "data loaded!";
-        }else{
-            message = "unable to load mySettings.xml check data/ folder";
-        }
-        cout << message << endl;
-
-    }
-    
-    if(dataType == "CSV"){
-	// Load a CSV File.
-	csv.loadFile(ofToDataPath("sc_data.csv"));
-	
-	cout << "Print out a specific CSV value" << endl;
-    for(int i=0;i<95;i++){
-        cout << "row 1, column "<<i<<": ";
-        cout << csv.data[1][i] << endl;
-    }
-	// also you can write...
-	//cout << csv.data[0].at(1) << endl;
-	
-	cout << "Print out the first value" << endl;
-	cout << csv.data[0].front() << endl;
-	
-	cout << "Maximum Size:";
-	cout << csv.data[0].max_size() << endl;
-    }
-    */
-    data.loadXML(ofToDataPath("search-export-interviews-chicago.xml"));
+    data.loadXML(ofToDataPath("search-export-interviews-Interview_City_Chicago.xml"));
     data.parse();
-    //std::vector<string> d =
-    //data.getKeywordsForItem(2);
-    //for(int i=0;i< d.size(); i++){
-    //    cout << d[i];
-    // }
+    string k = "Parents";
+    std::vector<InterviewData> interviews = data.getInterviewsWithKeyword(k);
+    
+    //pcout
+    cout << endl << endl << k <<" IDs: " << endl;
+    for (int i = 0; i<interviews.size(); i++){
+        cout << i << ": " << interviews[i].interviewID << endl;
+    }
 		
 }
 
