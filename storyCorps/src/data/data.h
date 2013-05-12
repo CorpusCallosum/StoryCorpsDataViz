@@ -26,6 +26,8 @@ class data
         std::vector<string> getKeywordsForItem(int i);
         void split(string str, string delimiters , vector<string> tokens);
         void addKeyword(string k);
+        void addKeywords(string k);
+
     
     //vars
         ofxCsv csv;

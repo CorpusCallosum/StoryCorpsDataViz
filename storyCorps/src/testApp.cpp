@@ -47,6 +47,9 @@ void testApp::setup(){
     
     data.loadXML(ofToDataPath("search-export-interviews-Interview_City_Chicago.xml"));
     data.parse();
+    
+    cout << "total unique tags: " << data.keywords.size() << endl;
+    
     string k = "Parents";
     std::vector<InterviewData> interviews = data.getInterviewsWithKeyword(k);
     

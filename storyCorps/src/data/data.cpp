@@ -43,23 +43,33 @@ void data::parse(){
         XML.pushTag("Row",rCnt);
     //now i need to iterate through all the cells of the row and look for the one with the correct index of 86
         int numCells = XML.getNumTags("Cell");
+        bool collectKeywords = false;
+
     for (int cCnt = 0;cCnt< numCells;cCnt++){
       //  cout << "cell:";
       //  cout << i << endl;
         if(XML.getAttribute("Cell", "ss:Index", 0, cCnt) == 86){
+            collectKeywords = true;
+        }
+        
+        //get all keywords in cells starting at cell 86
+        if(collectKeywords){
+            
             XML.pushTag("Cell",cCnt);//col with keywords
             string kws = XML.getValue("Data","");//this should return the keywords that need to be split at the return
             
          
-            vector<string> skws = ofSplitString(kws, "|");
+           /* vector<string> skws = ofSplitString(kws, "|");
            
             for (int i = 0; i < skws.size(); i++){
                 //add keyword to list of keywords...
                 addKeyword(skws[i]);
-            }
+            }*/
+            addKeywords(kws);
+            
             XML.popTag();
             
-            if(numCells<cCnt+1){
+           /* if(numCells<cCnt+1){
                 //get tags from the next row also?
                 XML.pushTag("Cell",cCnt+1);//col with keywords
                 kws = XML.getValue("Data","");//this should return the keywords that need to be split
@@ -72,29 +82,9 @@ void data::parse(){
             }
             else{
                 break;
-            }
+            }*/
 
-          /*  //get tags from the next two rows also?
-            XML.pushTag("Cell",cCnt+2);//col with keywords
-            kws = XML.getValue("Data","");//this should return the keywords that need to be split
-            skws = ofSplitString(kws, "|");
-            for (int i = 0; i < skws.size(); i++){
-                //add keyword to list of keywords...
-                addKeyword(skws[i]);
-            }
-            XML.popTag();
-            
-            //get tags from the next two rows also?
-            XML.pushTag("Cell",cCnt+3);//col with keywords
-            kws = XML.getValue("Data","");//this should return the keywords that need to be split
-            skws = ofSplitString(kws, "|");
-            for (int i = 0; i < skws.size(); i++){
-                //add keyword to list of keywords...
-                addKeyword(skws[i]);
-            }
-            XML.popTag();
-            
-            break;*/
+         
         }
         
     }
@@ -122,6 +112,17 @@ void data::parse(){
     for (int kCnt = 0; kCnt<keywords.size(); kCnt++){
         cout << keywords[kCnt].first << ", "<< keywords[kCnt].second << endl;
     }
+}
+
+void data::addKeywords(string k){
+    
+    vector<string> skws = ofSplitString(k, "|");
+    
+    for (int i = 0; i < skws.size(); i++){
+        //add keyword to list of keywords...
+        addKeyword(skws[i]);
+    }
+    
 }
 
 void data::addKeyword(string k){
