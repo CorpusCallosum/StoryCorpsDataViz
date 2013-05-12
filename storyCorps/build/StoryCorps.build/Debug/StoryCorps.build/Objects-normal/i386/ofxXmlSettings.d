@@ -1,6 +1,6 @@
 dependencies: \
-  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/myApps/storyCorps/../../../addons/ofxXmlSettings/src/ofxXmlSettings.cpp \
-  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/myApps/storyCorps/../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/../../../addons/ofxXmlSettings/src/ofxXmlSettings.cpp \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
   ../../../libs/openFrameworks/ofMain.h \
   ../../../libs/openFrameworks/utils/ofConstants.h \
   ../../../libs/glew/include/GL/glew.h \
@@ -114,4 +114,4 @@ dependencies: \
   ../../../libs/openFrameworks/video/ofQTKitPlayer.h \
   ../../../libs/openFrameworks/3d/ofCamera.h \
   ../../../libs/openFrameworks/3d/ofEasyCam.h \
-  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/myApps/storyCorps/../../../addons/ofxXmlSettings/libs/tinyxml.h
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/../../../addons/ofxXmlSettings/libs/tinyxml.h

@@ -1,6 +1,6 @@
 dependencies: \
-  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/myApps/storyCorps/../../../addons/ofxCsv/src/ofxCsv.cpp \
-  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/myApps/storyCorps/../../../addons/ofxCsv/src/ofxCsv.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/../../../addons/ofxCsv/src/ofxCsv.cpp \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/../../../addons/ofxCsv/src/ofxCsv.h \
   ../../../libs/openFrameworks/ofMain.h \
   ../../../libs/openFrameworks/utils/ofConstants.h \
   ../../../libs/glew/include/GL/glew.h \

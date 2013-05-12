@@ -10,6 +10,7 @@
 #include "ofMain.h"
 #include "ofxCsv.h"
 #include "ofxXmlSettings.h"
+#include "InterviewData.h"
 
 using namespace wng;
 
@@ -21,7 +22,7 @@ class data
         void loadCSV(string path);
         void loadXML(string path);
         void parse();
-        ofxCsv getInterviewsWithKeyword(string k);
+        std::vector<InterviewData> getInterviewsWithKeyword(string k);
         std::vector<string> getKeywordsForItem(int i);
         void split(string str, string delimiters , vector<string> tokens);
         void addKeyword(string k);
@@ -30,5 +31,4 @@ class data
         ofxCsv csv;
         ofxXmlSettings XML;
         std::vector<std::pair<string, int> > keywords;
-
 };

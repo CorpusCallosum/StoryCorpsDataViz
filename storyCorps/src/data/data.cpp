@@ -113,8 +113,10 @@ void data::addKeyword(string k){
 }
 
 
-//return a CSV of interviews that match the requested keyword
-ofxCsv data::getInterviewsWithKeyword(string k){
+//return a list of interview data objects that match the requested keyword
+std::vector<InterviewData> data::getInterviewsWithKeyword(string k){
+    std::vector<InterviewData> interviews;
+    InterviewData interviewData;
     
 
 }
