@@ -19,7 +19,13 @@ void zipcodes::getIncomingZip(string Mlocation)
 { 
     ofVec2f coordinates = loadData(Mlocation); //function that takes a zip code as input, returns an x,y pair lat / longitude from a text file based on zip, lat, long and scales it to an image
     cout<<coordinates<<endl;//prints out the result
-    mapData(coordinates);
+    
+    float mapSouthEdge = 40.49;
+    float mapNorthEdge = 40.92;
+    float mapWestEdge = -74.27;
+    float mapEastEdge= -73.68;
+    
+    mapData(coordinates, mapSouthEdge, mapNorthEdge, mapWestEdge, mapEastEdge);
 }
 
 ofVec2f zipcodes::loadData(string Minput){
@@ -56,6 +62,8 @@ ofVec2f zipcodes::loadData(string Minput){
                     float latitude = ofToFloat(fileTxt[7]);//get the latitude which is the 7th element of the line
                     float longitude =ofToFloat(fileTxt[9]);//get the longitude which is the 9th element in the vector
                     return ofVec2f(latitude, longitude);//return the lat and longitude
+                    
+                   
                 }
             }
         }
@@ -71,9 +79,17 @@ ofVec2f zipcodes::loadData(string Minput){
 
 //--------------------------------------------------------------
 
-void zipcodes::mapData(ofVec2f latlong){
+void zipcodes::mapData(ofVec2f latlong, float mapSouthEdge, float mapNorthEdge, float mapWestEdge, float mapEastEdge){
     
    // map the lat and long based on an image
-
+    
+   // cout<<"x= "<< latlong[0]<<", y= "<< latlong[1]<<endl;//print out the points of the vector
+    //basically extract x and y ...
+   float y = ofMap(latlong[0], mapNorthEdge, mapSouthEdge, 0, abs(mapSouthEdge- mapNorthEdge) );
+    float x = ofMap(latlong[1], mapWestEdge, mapEastEdge, 0, abs(mapWestEdge - mapEastEdge));
+    
+    ofVec2f newLatLong = (x,y);
+    return newLatLong;
+    
 }
 
