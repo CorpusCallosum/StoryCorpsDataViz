@@ -41,6 +41,7 @@
 #include "data.h"
 #include "ofxCsv.h"
 #include "ofxXmlSettings.h"
+#include "zipcodes.h"
 
 using namespace wng;
 
@@ -63,7 +64,10 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
 	
         data data;
+
         ofxCsv csv;
         ofxXmlSettings XML;
+    
+    
 
 };

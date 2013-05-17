@@ -11,6 +11,8 @@
 #include "ofxCsv.h"
 #include "ofxXmlSettings.h"
 #include "InterviewData.h"
+#include "zipcodes.h"
+
 
 using namespace wng;
 
@@ -28,9 +30,9 @@ class data
         void addKeyword(string k);
         void addKeywords(string k);
 
-    
     //vars
         ofxCsv csv;
         ofxXmlSettings XML;
         std::vector<std::pair<string, int> > keywords;
+        zipcodes zipcodes;
 };

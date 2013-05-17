@@ -48,6 +48,11 @@ void testApp::setup(){
     data.loadXML(ofToDataPath("search-export-interviews-Interview_City_Chicago.xml"));
     data.parse();
     
+
+    
+  
+    
+    
     cout << "total unique tags: " << data.keywords.size() << endl;
     
     string k = "Parents";
@@ -58,7 +63,7 @@ void testApp::setup(){
     for (int i = 0; i<interviews.size(); i++){
         cout << i << ": " << interviews[i].interviewID << endl;
     }
-		
+ 		
 }
 
 //--------------------------------------------------------------
