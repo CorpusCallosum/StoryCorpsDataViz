@@ -22,17 +22,21 @@ class data
     public:
     //methods
         void loadCSV(string path);
-        void loadXML(string path);
+        void loadInterviewXML(string path);
+        void loadParticipantXML(string path);
+        void loadParticipantCSV(string path);
         void parse();
         std::vector<InterviewData> getInterviewsWithKeyword(string k);
         std::vector<string> getKeywordsForItem(int i);
         void split(string str, string delimiters , vector<string> tokens);
         void addKeyword(string k);
         void addKeywords(string k);
+        string getZipForId(string id);
 
     //vars
-        ofxCsv csv;
+        ofxCsv participantCSV;
         ofxXmlSettings XML;
+        ofxXmlSettings participantXML;
         std::vector<std::pair<string, int> > keywords;
         zipcodes zipcodes;
 };

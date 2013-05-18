@@ -8,18 +8,28 @@
 
 #include "data.h"
 
-void data::loadCSV(string path){
+void data::loadParticipantCSV(string path){
     // Load a CSV File into the data class
-	csv.loadFile(path);
+	participantCSV.loadFile(path);
 }
 
-void data::loadXML(string path){
-    // Load a CSV File into the data class
-	//csv.loadFile(path);
+void data::loadInterviewXML(string path){
     //load and parse XML data file
     cout << "Load XML file" << endl;
     string message;
     if( XML.loadFile(path) ){
+        message = "data loaded!";
+    }else{
+        message = "unable to load xml check data/ folder";
+    }
+    cout << message << endl;
+}
+
+void data::loadParticipantXML(string path){
+    //load and parse XML data file
+    cout << "Load participant XML file" << endl;
+    string message;
+    if( participantXML.loadFile(path) ){
         message = "data loaded!";
     }else{
         message = "unable to load mySettings.xml check data/ folder";
@@ -30,8 +40,10 @@ void data::loadXML(string path){
 //parse
 void data::parse(){
     cout << "parse" << endl;
+    //prep the particiapnt xml file
+    participantXML.pushTag("Document");
 
-    //iterate through all keywords in the CSV file and generate a list of all the keywords used and their frequencies
+    //iterate through all keywords in the XML file and generate a list of all the keywords used and their frequencies
     //add keyword to keyword list if it is not already in the list
     //go to first row with data in it
     XML.pushTag("Workbook");
@@ -39,15 +51,12 @@ void data::parse(){
     XML.pushTag("Table");
     int numRows = XML.getNumTags("Row");
     for (int rCnt = 1;rCnt < numRows ;rCnt++){
-
         XML.pushTag("Row",rCnt);
     //now i need to iterate through all the cells of the row and look for the one with the correct index of 86
         int numCells = XML.getNumTags("Cell");
         bool collectKeywords = false;
 
     for (int cCnt = 0;cCnt< numCells;cCnt++){
-      //  cout << "cell:";
-      //  cout << i << endl;
         if(XML.getAttribute("Cell", "ss:Index", 0, cCnt) == 86){
             collectKeywords = true;
         }
@@ -59,31 +68,11 @@ void data::parse(){
             string kws = XML.getValue("Data","");//this should return the keywords that need to be split at the return
             
          
-           /* vector<string> skws = ofSplitString(kws, "|");
-           
-            for (int i = 0; i < skws.size(); i++){
-                //add keyword to list of keywords...
-                addKeyword(skws[i]);
-            }*/
+          
             addKeywords(kws);
             
             XML.popTag();
             
-           /* if(numCells<cCnt+1){
-                //get tags from the next row also?
-                XML.pushTag("Cell",cCnt+1);//col with keywords
-                kws = XML.getValue("Data","");//this should return the keywords that need to be split
-                skws = ofSplitString(kws, "|");
-                for (int i = 0; i < skws.size(); i++){
-                    //add keyword to list of keywords...
-                    addKeyword(skws[i]);
-                }
-                XML.popTag();
-            }
-            else{
-                break;
-            }*/
-
          
         }
         
@@ -92,11 +81,11 @@ void data::parse(){
 
     }
     
-    //kwyword list has been generated, let's see it!
-    cout << endl << endl << "KEYWORD LIST: " << endl;
+    //keyword list has been generated, let's see it!
+    /*cout << endl << endl << "KEYWORD LIST: " << endl;
     for (int kCnt = 0; kCnt<keywords.size(); kCnt++){
         //cout << keywords[kCnt].first << ", "<< keywords[kCnt].second << endl;
-    }
+    }*/
     //sort the list
     struct sort_pred {
         bool operator()(const std::pair<string,int> &left, const std::pair<string,int> &right) {
@@ -144,16 +133,10 @@ void data::addKeyword(string k){
 std::vector<InterviewData> data::getInterviewsWithKeyword(string k){
     std::vector<InterviewData> interviews;
     
-    //iterate through all keywords in the CSV file and generate a list of all the keywords used and their frequencies
     //add keyword to keyword list if it is not already in the list
     //go to first row with data in it
-   // XML.pushTag("Workbook");
-   // XML.pushTag("Worksheet");
-   // XML.pushTag("Table");
     int numRows = XML.getNumTags("Row");
     for (int rCnt = 1;rCnt < numRows ;rCnt++){
-       // cout << "row:";
-       // cout << rCnt << endl;
         
         XML.pushTag("Row",rCnt);
         //now i need to iterate through all the cells of the row and look for the one with the correct index of 86
@@ -164,34 +147,19 @@ std::vector<InterviewData> data::getInterviewsWithKeyword(string k){
                 XML.pushTag("Cell",i);//col with keywords
                 string kws = XML.getValue("Data","");//this should return the keywords that need to be split at the return
                 
-              //  cout << "all strings: "+kws << endl;
-                //split the keywords on the returns
-                // vector<string> skws = ofSplitString(kws, " ");
                 vector<string> skws = ofSplitString(kws, "|");
-                //std::vector<int> first;
-                //  std::vector<string> skws;
-                //split(kws, "&#13;&#13;", skws);
-               // cout << "split strings: " << endl;
-                //cout << skws << endl;
                 for (int i = 0; i < skws.size(); i++){
-                   // cout << "keyword ";
-                   // cout << i;
-                   // cout << ": ";
-                  //  cout << skws[i] << endl;
-                    //if keyword matches, add to list
                     if(skws[i] == k){
                         //create new interview object
                         InterviewData id;
                         XML.popTag();
                         XML.pushTag("Cell",0);
                         string interviewID = XML.getValue("Data","");
-                       // cout << "interviewID: ";
-                       // cout << interviewID << endl;
                         
                         id.interviewID = interviewID;
-                       // XML.popTag();
-                       // id.zip =
-                        //***here is where we need to add the location information
+                        // XML.popTag();
+                        id.zip = getZipForId(interviewID);
+                        // *** here is where we need to add the location information
                         
                         //
                         //string location="60002";//sample string to input into the zip code data function
@@ -210,20 +178,97 @@ std::vector<InterviewData> data::getInterviewsWithKeyword(string k){
         XML.popTag();
         
     }
-    
     return interviews;
-
 }
 
+string data::getZipForId(string id){
+    //parse the csv file...
+    //cout << "getZipForId" << endl;
+    for(int i=1; i< participantXML.getNumTags("Row"); i++){
+        participantXML.pushTag("Row", i);
+        string iid = participantXML.getValue("Field_0","");
+       // cout << "iid: " << iid << endl;
+
+        //find matching id
+        if(iid == id){
+            string role = participantXML.getValue("Field_25","");
+            if(role == "Storyteller 1"){
+                string zip = participantXML.getValue("Field_37","");
+                participantXML.popTag();
+                return zip;
+            }
+        }
+        participantXML.popTag();
+    }
+    /*
+    //CSV mode (not working :(
+    for (int i=0 ;i < participantCSV.numRows ; i++){
+        //match the ids
+        cout << "id:" << participantCSV.data[i][0] << endl;
+        if(participantCSV.data[i][0] == id){ //0 or 1??? NOT SURE...
+            //look for the storyteller ROLE
+            if(participantCSV.data[i][26-1] == "Storyteller 1"){
+                //return the zip!
+                return participantCSV.data[i][38-1];
+            }
+        }
+    }
+     */
+}
+
+/*
+string data::getZipForId(string id){
+    //find zipcode for the interviewer address based in the interview id
+    participantXML.pushTag("Workbook");
+    participantXML.pushTag("Worksheet");
+    participantXML.pushTag("Table");
+    int numRows = XML.getNumTags("Row");
+    for (int rCnt = 1;rCnt < numRows ;rCnt++){
+        XML.pushTag("Row",rCnt);
+        //loop through rows
+        int numCells = XML.getNumTags("Cell");
+        bool collectKeywords = false;
+        
+        for (int cCnt = 0;cCnt< numCells;cCnt++){
+            //loop through cells, compare ids
+            XML.pushTag("Cell",0);//col with id
+            string iid = XML.getValue("Data","");
+            if(iid == id){
+                //id match found
+                //look for the interviewee
+                
+            }
+            
+            if(XML.getAttribute("Cell", "ss:Index", 0, cCnt) == 86){
+                collectKeywords = true;
+            }
+            
+            //get all keywords in cells starting at cell 86
+          //  if(collectKeywords){
+                
+                XML.pushTag("Cell",cCnt);//col with keywords
+                string kws = XML.getValue("Data","");//this should return the keywords that need to be split at the return
+                
+                addKeywords(kws);
+                
+                XML.popTag();
+                
+                
+         //   }
+            
+        }
+        XML.popTag();
+        
+        
+}
+}
+*/
+
+/*
 //return the list of keywords from the CSV item
 std::vector<string> data::getKeywordsForItem(int i){
     //keyword column is...94?
     cout << csv.data[2][94] << endl;
-
-   // string keywords = csv.data[i][94];
-   // cout << keywords;
-    //split string at newline
-    //return ofSplitString(keywords, "\n");
     
 }
 
@@ -243,4 +288,4 @@ void split(string str, string delimiters , vector<string> tokens)
         // Find next "non-delimiter"
         pos = str.find_first_of(delimiters, lastPos);
     }
-}
+}*/

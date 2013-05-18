@@ -45,13 +45,11 @@
 void testApp::setup(){
     string dataType = "XML";
     
-    data.loadXML(ofToDataPath("search-export-interviews-Interview_City_Chicago.xml"));
-    data.parse();
-    
+    data.loadInterviewXML(ofToDataPath("search-export-interviews-Interview_City_Chicago.xml"));
+  //  data.loadParticipantCSV(ofToDataPath("search-export-participants-Interview.csv"));
+      data.loadParticipantXML(ofToDataPath("search-export-participants-Interview.xml"));
 
-    
-  
-    
+    data.parse();
     
     cout << "total unique tags: " << data.keywords.size() << endl;
     
@@ -61,9 +59,15 @@ void testApp::setup(){
     //pcout
     cout << endl << endl << k <<" IDs: " << endl;
     for (int i = 0; i<interviews.size(); i++){
-        cout << i << ": " << interviews[i].interviewID << endl;
+       cout << i << " id: " << interviews[i].interviewID << ", zip: " << interviews[i].zip <<endl;
     }
- 		
+    
+    //testing getting zip codes
+    string zip = data.getZipForId("SCK000568");
+    
+    cout << "SCK000568 zip: " << zip << endl;
+    cout << "GRS000322 zip: " << data.getZipForId("GRS000322") << endl;
+
 }
 
 //--------------------------------------------------------------
