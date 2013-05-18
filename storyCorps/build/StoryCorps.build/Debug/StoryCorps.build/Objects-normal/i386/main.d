@@ -119,5 +119,6 @@ dependencies: \
   /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/../../../addons/ofxXmlSettings/src/ofxXmlSettings.h \
   /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/../../../addons/ofxXmlSettings/libs/tinyxml.h \
   /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/src/data/interviewData/InterviewData.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/storyCorps/src/zipcodes.h \
   ../../../libs/openFrameworks/app/ofAppGlutWindow.h \
   ../../../libs/openFrameworks/app/ofAppBaseWindow.h

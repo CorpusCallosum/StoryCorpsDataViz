@@ -17,7 +17,8 @@ class InterviewData
     public:
         //vars
         string interviewID;
-        ofPoint location;
+        //ofPoint location;
+        string zip;
        // std::vector<std::pair<string, int> > keywords;
 
 };

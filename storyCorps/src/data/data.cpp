@@ -189,12 +189,14 @@ std::vector<InterviewData> data::getInterviewsWithKeyword(string k){
                        // cout << interviewID << endl;
                         
                         id.interviewID = interviewID;
+                       // XML.popTag();
+                       // id.zip =
                         //***here is where we need to add the location information
                         
                         //
-                        string location="60002";//sample string to input into the zip code data function
+                        //string location="60002";//sample string to input into the zip code data function
                         //but the location will really be passed in based on the individual ID, as a vector probably
-                        zipcodes.getIncomingZip(location);
+                        //zipcodes.getIncomingZip(location);
                         
                         //***
                         interviews.push_back(id);

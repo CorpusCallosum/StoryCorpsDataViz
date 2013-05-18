@@ -88,7 +88,7 @@ void zipcodes::mapData(ofVec2f latlong, float mapSouthEdge, float mapNorthEdge, 
    float y = ofMap(latlong[0], mapNorthEdge, mapSouthEdge, 0, abs(mapSouthEdge- mapNorthEdge) );
     float x = ofMap(latlong[1], mapWestEdge, mapEastEdge, 0, abs(mapWestEdge - mapEastEdge));
     
-    ofVec2f newLatLong = (x,y);
+    ofVec2f newLatLong = ofVec2f(x,y);
     return newLatLong;
     
 }
