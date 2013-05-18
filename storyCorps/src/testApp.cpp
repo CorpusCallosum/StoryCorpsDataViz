@@ -53,11 +53,11 @@ void testApp::setup(){
     
     cout << "total unique tags: " << data.keywords.size() << endl;
     
-    string k = "Parents";
+    string k = "Addictions";
     std::vector<InterviewData> interviews = data.getInterviewsWithKeyword(k);
     
     //pcout
-    cout << endl << endl << k <<" IDs: " << endl;
+    cout << endl << endl << k <<" interviews: " << endl;
     for (int i = 0; i<interviews.size(); i++){
        cout << i << " id: " << interviews[i].interviewID << ", zip: " << interviews[i].zip <<endl;
     }
