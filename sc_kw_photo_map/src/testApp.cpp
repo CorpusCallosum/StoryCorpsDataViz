@@ -481,22 +481,22 @@ void testApp::switchKW(){
         //***get interview data array for chosen keyword
          vector<InterviewData> interviewDataArray = scData.getInterviewsWithKeyword(kw);
         
-        vector<scPhoto> _interviews;
-       /* for(int i=0; i<ofRandom(10,30); i++){
+        //vector<scPhoto> _interviews;
+       
+        /* for(int i=0; i<ofRandom(10,30); i++){
             
           _interviews.push_back(scPhotos[ofRandom(scPhotos.size())]);
             
         }*/
         
-        
-        
-        keywords[featured].setBg();
+       
         //keywords[k].getInterviews(_interviews);
         keywords[k].setFeatured(interviewDataArray);
+         keywords[featured].setBg();
         //keywords[featured].featured=false;
         featured=k;
         pointIndex=0;
-        kwSwitchTresh=pointDelay*keywords[featured].interviews.size();
+        //kwSwitchTresh=pointDelay*keywords[featured].interviews.size();
         
     }
 }
@@ -534,21 +534,9 @@ void testApp::drawLogo(){
 void testApp::drawPoints(){
     
     keywords[featured].drawPoints();
-    
-    //if(pointIndex==0 && ofGetElapsedTimeMillis()-pointMark>pointDelay && pointIndex<keywords[featured].interviews.size()){
-   // keywords[featured].addPhoto(pointIndex);
+    keywords[featured].addPhoto(pointIndex);
     //pointIndex++;
     //pointMark=ofGetElapsedTimeMillis();
-   // }
     
-//    if(pointIndex>0 && keywords[featured].interviews[pointIndex-1].pointAlpha>200){
-//        keywords[featured].addPhoto(pointIndex);
-//        pointIndex++;
-//        pointMark=ofGetElapsedTimeMillis();
-//    }
-
-   
-
     
 }
-

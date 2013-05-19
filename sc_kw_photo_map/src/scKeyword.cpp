@@ -120,18 +120,26 @@ void scKeyword::setFeatured(vector<InterviewData> _interviews){
     moving = false;
     
     
+    for(int i = 0; i<_interviews.size();i++){
+        //init photo objects for interviewdata array
+        scPhoto p;
+        p.init(_interviews[i].interviewID, ofVec2f(0,0),ofVec2f(0,0));
+        //set photo zip code
+        p.zip = _interviews[i].zip;
+        interviews.push_back(p);
+    }
+    
     int tWidth=limit2.x-limit1.x-200;
     
-     tScale = ( tWidth/font.stringWidth(keyword));
+    tScale = ( tWidth/font.stringWidth(keyword));
+    
     if(tScale>1){
         tScale=1;
-    
     }
     
     tPos = ofVec2f(limit1.x+(limit2.x-limit1.x)/2-(font.stringWidth(keyword)*tScale/2), (limit1.y+(limit2.y-limit1.y)/2)+font.stringHeight(keyword)/2 );
    
-    
-    if(!intInit){
+   /* if(!intInit){
         for(int i=0; i<_interviews.size();i++){
             //instantiate photo objects
             
@@ -155,7 +163,7 @@ void scKeyword::setFeatured(vector<InterviewData> _interviews){
         }
         intInit=true;
 
-    }
+    }*/
     
 }
 
@@ -169,18 +177,11 @@ void scKeyword::setBg(){
 }
 
 
-
-
-
 void scKeyword::drawPoints(){
     
    
     for(int i=0; i< interviews.size(); i++){
-        
-        if(interviews[i].alphaVal>250 && interviews[i].alphaVal<255){
-            addPoint(i);
-            
-        }
+        addPoint(i);
         interviews[i].update();
         interviews[i].drawPoint();
                }
@@ -188,7 +189,7 @@ void scKeyword::drawPoints(){
 }
 
 void scKeyword::addPhoto(int p){
-  interviews[p].fade=false;
+  //interviews[p].fade=false;
 
 }
 

@@ -96,6 +96,7 @@ public:
     //scPhoto(, float _x, float _y, int _w, int _h, float _easeVal);
 //methods
     void init(ofImage _image, ofVec2f _pos, ofVec2f _dims);
+    void init(string _interviewID, ofVec2f _pos, ofVec2f _dims);
     void display();
     void resize(ofVec2f _dims);
     void repos(ofVec2f _pos);
