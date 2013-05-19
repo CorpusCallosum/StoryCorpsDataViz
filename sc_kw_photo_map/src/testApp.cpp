@@ -8,8 +8,8 @@ void testApp::setup(){
     displayLg = true;
     modeSwitch = false;
     
-    lgDispTime = 4000;
-    lgFadeTime = 1000;
+    lgDispTime = 400;
+    lgFadeTime = 100;
     
     lgIndex = 0;
     lgIndex2 = 10;
@@ -157,6 +157,12 @@ void testApp::setup(){
             }
         }
     }
+    
+    //setup data object
+    scData.loadInterviewXML(ofToDataPath("search-export-interviews-Interview_City_Chicago.xml"));
+    scData.loadParticipantXML(ofToDataPath("search-export-participants-Interview.xml"));
+    scData.parse();
+    
 }
 
 //--------------------------------------------------------------
@@ -467,17 +473,26 @@ void testApp::switchKW(){
        
         int k = ofRandom(keywords.size());
         
-        vector<scPhoto> _interviews;
-        for(int i=0; i<ofRandom(10,30); i++){
-            
-            _interviews.push_back(scPhotos[ofRandom(scPhotos.size())]);
-            
+        string kw = keywords[k].keyword;
+        cout << "new chosen keyword is: " << kw << endl;
         
-        }
+       
+        
+        //***get interview data array for chosen keyword
+         vector<InterviewData> interviewDataArray = scData.getInterviewsWithKeyword(kw);
+        
+        vector<scPhoto> _interviews;
+       /* for(int i=0; i<ofRandom(10,30); i++){
+            
+          _interviews.push_back(scPhotos[ofRandom(scPhotos.size())]);
+            
+        }*/
+        
+        
         
         keywords[featured].setBg();
         //keywords[k].getInterviews(_interviews);
-        keywords[k].setFeatured(_interviews);
+        keywords[k].setFeatured(interviewDataArray);
         //keywords[featured].featured=false;
         featured=k;
         pointIndex=0;
@@ -520,17 +535,17 @@ void testApp::drawPoints(){
     
     keywords[featured].drawPoints();
     
-    if(pointIndex==0 && ofGetElapsedTimeMillis()-pointMark>pointDelay && pointIndex<keywords[featured].interviews.size()){
-    keywords[featured].addPhoto(pointIndex);
-    pointIndex++;
-    pointMark=ofGetElapsedTimeMillis();
-    }
+    //if(pointIndex==0 && ofGetElapsedTimeMillis()-pointMark>pointDelay && pointIndex<keywords[featured].interviews.size()){
+   // keywords[featured].addPhoto(pointIndex);
+    //pointIndex++;
+    //pointMark=ofGetElapsedTimeMillis();
+   // }
     
-    if(pointIndex>0 && keywords[featured].interviews[pointIndex-1].pointAlpha>200){
-        keywords[featured].addPhoto(pointIndex);
-        pointIndex++;
-        pointMark=ofGetElapsedTimeMillis();
-    }
+//    if(pointIndex>0 && keywords[featured].interviews[pointIndex-1].pointAlpha>200){
+//        keywords[featured].addPhoto(pointIndex);
+//        pointIndex++;
+//        pointMark=ofGetElapsedTimeMillis();
+//    }
 
    
 

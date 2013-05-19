@@ -7,6 +7,7 @@
 //
 
 #include "scKeyword.h"
+#include "interviewData/InterviewData.h"
 
 
 void scKeyword::init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2, ofTrueTypeFont _font){
@@ -113,7 +114,7 @@ void scKeyword::move(){
 }
 
 
-void scKeyword::setFeatured(vector<scPhoto> _interviews){
+void scKeyword::setFeatured(vector<InterviewData> _interviews){
     color=255;
     featured = true;
     moving = false;
@@ -132,21 +133,23 @@ void scKeyword::setFeatured(vector<scPhoto> _interviews){
     
     if(!intInit){
         for(int i=0; i<_interviews.size();i++){
-            interviews.push_back(_interviews[i]);
+            //instantiate photo objects
             
-            interviews[i].alphaVal=0;
-            interviews[i].fade=true;
+         //   interviews.push_back(_interviews[i]);
+            
+         //   interviews[i].alphaVal=0;
+         //   interviews[i].fade=true;
             
             //get zipcode location
            // ofVec2f zLoc=zipcodes.latitudeLongitude;
              ofVec2f zLoc=ofVec2f(ofRandom(limit1.x,limit2.x),ofRandom(limit1.y,limit2.y));
             
             
+          //  ofVec2f zLoc  = interviews.
             
             
             
-            
-            interviews[i].zipLoc=zLoc;
+          //  interviews[i].zipLoc=zLoc;
             //cout<<keyword<<" zloc= "<<interviews[i].zipLoc.x<<", "<<interviews[i].zipLoc.y<<endl;
             
         }
@@ -182,7 +185,6 @@ void scKeyword::drawPoints(){
         interviews[i].drawPoint();
                }
     
- 
 }
 
 void scKeyword::addPhoto(int p){
@@ -191,7 +193,6 @@ void scKeyword::addPhoto(int p){
 }
 
 void scKeyword::addPoint(int p){
-    
     interviews[p].tPointAlpha=230;
     interviews[p].tPointLoc.x=interviews[p].zipLoc.x;
     interviews[p].tPointLoc.y=interviews[p].zipLoc.y;
@@ -206,7 +207,6 @@ void scKeyword::drawPhotos(int _gridX, int _gridY, int _dimX, int _dimY, int _of
            
            
            if(interviews.size()>index){
-           
                if(!photoInit){
                interviews[index].tPos.x=x*_dimX;
                 interviews[index].tPos.y=y*_dimY+_offset;

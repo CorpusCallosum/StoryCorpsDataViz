@@ -9,6 +9,7 @@
 #include "ofxCsv.h"
 #include "scKeyword.h"
 #include "zipcodes.h"
+#include "data.h"
 
 using namespace wng;
 
@@ -111,7 +112,7 @@ class testApp : public ofBaseApp{
     
     int pointIndex=0;
     long pointMark=0;
-    int pointDelay=3000;
+    int pointDelay=1000;
     
     
     ofDirectory dir;
@@ -151,5 +152,7 @@ class testApp : public ofBaseApp{
     
     node n;
     scFont f;
+    
+    data scData;
 
 };

@@ -34,10 +34,12 @@ void scPhoto:: init(ofImage _image, ofVec2f _pos, ofVec2f _dims){
     
     
 //get zipcode location
+    /*
     ofVec2f zLoc=ofVec2f(ofRandom(ofGetWidth()/2,ofGetWidth()),ofRandom(ofGetHeight()/2,ofGetHeight()));
     
   zipLoc=zLoc;
-    getLocation("60064");//just a test of the function to pass in zip and get x,y pair
+    //getLocation("60064");//just a test of the function to pass in zip and get x,y pair
+     */
 
 //initialize variables
     //image.loadImage(_file);
@@ -285,20 +287,19 @@ void scPhoto::shapeTrans(string _shape){
 }
 
 void scPhoto::drawPoint(){
-    if(abs(tPointLoc.y-pointLoc.y)<5 && abs(tPointLoc.x-pointLoc.x)<5){
-        ofSetColor(255, 50, 0, pointAlpha);
-        pointSize=10;
-        
-    }
+//    if(abs(tPointLoc.y-pointLoc.y)<5 && abs(tPointLoc.x-pointLoc.x)<5){
+//        ofSetColor(255, 50, 0, pointAlpha);
+//        pointSize=10;
+//        
+//    }
     
-    else {
-               ofSetColor(255,pointAlpha);
-         pointSize=15;
+    //else {
+         ofSetColor(255, 50, 0, pointAlpha);
+         pointSize=10;
 
-    }
+   // }
     
     ofEnableAlphaBlending();
-    
     ofCircle(pointLoc.x,pointLoc.y,pointSize);
 
     //cout<<"got here"<<endl;

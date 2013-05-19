@@ -40,6 +40,8 @@
 		E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E077E715D3B6510020DFD4 /* QTKit.framework */; };
 		E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F985F515E0DE99003869B5 /* Accelerate.framework */; };
 		F8F806C017480D0500CF44ED /* zipcodes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F806BE17480D0500CF44ED /* zipcodes.cpp */; };
+		F8F806FA1749610000CF44ED /* data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F806F51749610000CF44ED /* data.cpp */; };
+		F8F806FB1749610000CF44ED /* InterviewData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8F806F81749610000CF44ED /* InterviewData.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +185,10 @@
 		E7F985F515E0DE99003869B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		F8F806BE17480D0500CF44ED /* zipcodes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = zipcodes.cpp; sourceTree = "<group>"; };
 		F8F806BF17480D0500CF44ED /* zipcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zipcodes.h; sourceTree = "<group>"; };
+		F8F806F51749610000CF44ED /* data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = data.cpp; sourceTree = "<group>"; };
+		F8F806F61749610000CF44ED /* data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = data.h; sourceTree = "<group>"; };
+		F8F806F81749610000CF44ED /* InterviewData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InterviewData.cpp; sourceTree = "<group>"; };
+		F8F806F91749610000CF44ED /* InterviewData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterviewData.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -468,6 +474,9 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				F8F806F51749610000CF44ED /* data.cpp */,
+				F8F806F61749610000CF44ED /* data.h */,
+				F8F806F71749610000CF44ED /* interviewData */,
 				F8F806BE17480D0500CF44ED /* zipcodes.cpp */,
 				F8F806BF17480D0500CF44ED /* zipcodes.h */,
 				0E26C5BC1705D66C00E2A249 /* scPhoto.cpp */,
@@ -488,6 +497,15 @@
 				E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */,
 			);
 			name = openFrameworks;
+			sourceTree = "<group>";
+		};
+		F8F806F71749610000CF44ED /* interviewData */ = {
+			isa = PBXGroup;
+			children = (
+				F8F806F81749610000CF44ED /* InterviewData.cpp */,
+				F8F806F91749610000CF44ED /* InterviewData.h */,
+			);
+			path = interviewData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -600,6 +618,8 @@
 				0E93A79D173C4AFD00B3D2BE /* ofxCsv.cpp in Sources */,
 				0E93A7A01740631600B3D2BE /* scKeyword.cpp in Sources */,
 				F8F806C017480D0500CF44ED /* zipcodes.cpp in Sources */,
+				F8F806FA1749610000CF44ED /* data.cpp in Sources */,
+				F8F806FB1749610000CF44ED /* InterviewData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

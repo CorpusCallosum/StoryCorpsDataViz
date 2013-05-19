@@ -13,6 +13,7 @@
 #include "ofMain.h"
 #include "scPhoto.h"
 #include "zipcodes.h"
+#include "interviewData/InterviewData.h"
 
 
 class scKeyword {
@@ -52,7 +53,7 @@ public:
     void update();
     void setTarg(ofVec2f tPos);
     void move();
-    void setFeatured(vector<scPhoto> _interviews);
+    void setFeatured(vector<InterviewData> _interviews);
     void setBg();
     
     void getInterviews();
