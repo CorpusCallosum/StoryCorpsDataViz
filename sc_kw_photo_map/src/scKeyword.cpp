@@ -10,7 +10,11 @@
 #include "interviewData/InterviewData.h"
 
 
-void scKeyword::init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2, ofTrueTypeFont _font){
+void scKeyword::init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2, ofTrueTypeFont _font,
+                     data scData){
+    
+    cout << "initialize keyword:" << _keyword << endl;
+
 
     keyword = _keyword;
     pos = _pos;
@@ -30,6 +34,28 @@ void scKeyword::init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2
 
     color= ofColor(ofRandom(55,110));
     font=_font;
+    
+    //generate vector of interview data objects for the keyword
+    interviewDataObjects = scData.getInterviewsWithKeyword(_keyword);
+    
+    for(int i = 0; i<interviewDataObjects.size();i++){
+        //init photo objects for interviewdata array
+        string zip = interviewDataObjects[i].zip;
+        if(zip != ""){
+        
+        scPhoto p;
+        p.init(interviewDataObjects[i].interviewID, ofVec2f(0,0),ofVec2f(0,0));
+        //set photo zip code
+        p.zip = zip;
+        cout <<"zip: " << p.zip << endl;
+        //set x and y target location on map
+        p.zipLoc = p.getLocation(p.zip);
+        
+        //an array of photo objects
+        interviews.push_back(p);
+        }
+    }
+    
 }
 
 void scKeyword::draw(ofTrueTypeFont _font){
@@ -114,20 +140,23 @@ void scKeyword::move(){
 }
 
 
-void scKeyword::setFeatured(vector<InterviewData> _interviews){
+void scKeyword::setFeatured(){
     color=255;
     featured = true;
     moving = false;
     
-    
+    /*
     for(int i = 0; i<_interviews.size();i++){
         //init photo objects for interviewdata array
         scPhoto p;
         p.init(_interviews[i].interviewID, ofVec2f(0,0),ofVec2f(0,0));
         //set photo zip code
         p.zip = _interviews[i].zip;
+        //set x and y target location on map
+        p.zipLoc = p.getLocation(p.zip);
+        
         interviews.push_back(p);
-    }
+    }*/
     
     int tWidth=limit2.x-limit1.x-200;
     
@@ -193,6 +222,7 @@ void scKeyword::addPhoto(int p){
 
 }
 
+//the dot on the map
 void scKeyword::addPoint(int p){
     interviews[p].tPointAlpha=230;
     interviews[p].tPointLoc.x=interviews[p].zipLoc.x;

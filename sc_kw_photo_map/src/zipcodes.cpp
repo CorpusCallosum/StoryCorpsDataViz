@@ -73,7 +73,7 @@ ofVec2f zipcodes::loadData(string Minput){
     
     
     file.close();//close the file
-    cout<<"file closed";
+    cout<<"could not find zipcode: "<< Minput << endl;
     
 }
 

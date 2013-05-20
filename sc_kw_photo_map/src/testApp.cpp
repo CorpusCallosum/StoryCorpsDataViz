@@ -82,6 +82,12 @@ void testApp::setup(){
     
     //load list of key words
     dispKW.loadFile(ofToDataPath("kw.csv"));
+    cout << "load keywords, size:" << dispKW.numRows << endl;
+    
+    //setup data object
+    scData.loadInterviewXML(ofToDataPath("search-export-interviews-Interview_City_Chicago.xml"));
+    scData.loadParticipantXML(ofToDataPath("search-export-participants-Interview.xml"));
+    scData.parse();
     
     //initialize kw objects
     
@@ -94,10 +100,11 @@ void testApp::setup(){
         
         keywords.push_back(kw);
         
+        
         ofVec2f lim1= ofVec2f(mapBoxX,mapBoxY);
         ofVec2f lim2= ofVec2f(w,h);
         
-        keywords[i].init(s, tempPos, lim1, lim2, din);
+        keywords[i].init(s, tempPos, lim1, lim2, din, scData);
         
     }
         
@@ -158,11 +165,7 @@ void testApp::setup(){
         }
     }
     
-    //setup data object
-    scData.loadInterviewXML(ofToDataPath("search-export-interviews-Interview_City_Chicago.xml"));
-    scData.loadParticipantXML(ofToDataPath("search-export-participants-Interview.xml"));
-    scData.parse();
-    
+       
 }
 
 //--------------------------------------------------------------
@@ -479,7 +482,7 @@ void testApp::switchKW(){
        
         
         //***get interview data array for chosen keyword
-         vector<InterviewData> interviewDataArray = scData.getInterviewsWithKeyword(kw);
+         //vector<InterviewData> interviewDataArray = scData.getInterviewsWithKeyword(kw);
         
         //vector<scPhoto> _interviews;
        
@@ -491,8 +494,8 @@ void testApp::switchKW(){
         
        
         //keywords[k].getInterviews(_interviews);
-        keywords[k].setFeatured(interviewDataArray);
-         keywords[featured].setBg();
+        keywords[k].setFeatured();
+        keywords[featured].setBg();
         //keywords[featured].featured=false;
         featured=k;
         pointIndex=0;
