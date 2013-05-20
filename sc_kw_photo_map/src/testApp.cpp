@@ -2,19 +2,21 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     
+    
+    mode=1;
+    //mode=0;
+    
     ofSetDataPathRoot("../Resources/data/");
     displayMap = true;
     displayGrid = false;
     displayLg = true;
-    modeSwitch = false;
+    modeSwitch = true;
     
-    lgDispTime = 400;
-    lgFadeTime = 100;
-    
+  
     lgIndex = 0;
     lgIndex2 = 10;
     
-    mode =1;
+  
     lgMark = 0;
     lgMark2 = 500;
     
@@ -47,7 +49,7 @@ void testApp::setup(){
        
     ofSetFrameRate(100);
     int nodeTot = 0;
-    int nFiles = dir.listDir("photos");
+    int nFiles = dir.listDir("g2");
     numPhotos = dir.numFiles();
     
     cout<<"Num Photos: "<<numPhotos<<"\n";
@@ -76,10 +78,10 @@ void testApp::setup(){
     
     headerTextX = w/2-headerTextWidth/2- ((w-mapBoxWidth)-headerTextWidth)/2;
     
-    mapBoxX= w-mapBoxWidth;
+    mapBoxX= w/2-mapBoxWidth/2;
     mapBoxY=h-footerHeight-mapBoxheight;
     
-    
+    if(mode==0 || modeSwitch == true){
     //load list of key words
     dispKW.loadFile(ofToDataPath("kw.csv"));
     cout << "load keywords, size:" << dispKW.numRows << endl;
@@ -102,12 +104,12 @@ void testApp::setup(){
         
         
         ofVec2f lim1= ofVec2f(mapBoxX,mapBoxY);
-        ofVec2f lim2= ofVec2f(w,h);
+        ofVec2f lim2= ofVec2f(mapBoxX+mapBoxWidth,mapBoxY+mapBoxheight);
         
         keywords[i].init(s, tempPos, lim1, lim2, din, scData);
         
     }
-        
+    }
   
     numDisplay = gridX * gridY;
    // cout<<"numDisplay: "<<numDisplay;
@@ -128,7 +130,7 @@ void testApp::setup(){
         for(int i=0; i <numPhotos; i++){
             
             int m = 4;
-            images[i].resize(dims.x*m,dims.y*m);
+            //images[i].resize(dims.x*m,dims.y*m);
              scPhoto p;
             lgPhotos.push_back(p);
             lgPhotos[i].init(images[i],ofVec2f(w/2-dims.x*m/2, headerHeight),ofVec2f(dims.x*m,dims.y*m));
@@ -140,7 +142,7 @@ void testApp::setup(){
         
         //resize photos
         for(int i=0; i<numPhotos; i++) {
-            images[i].resize(dims.x,dims.y);
+            //images[i].resize(dims.x,dims.y);
             
         }
         
@@ -171,6 +173,11 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
     
+    
+    
+    //updates for map mode
+    if(mode==0){
+   
     switchKW();
     for(int i=0; i<keywords.size();i++){
         keywords[i].move();
@@ -180,6 +187,8 @@ void testApp::update(){
     
     }
     
+    
+        //updates for displaying photos in map mode
 //    for(int i = 0; i<numDisplay;i++){
 //        scPhotos[i].update();
 //                
@@ -188,30 +197,23 @@ void testApp::update(){
     for(int i = 0; i<keywords[featured].interviews.size();i++){
         keywords[featured].interviews[i].update();
     }
+    }
     
-    
-    lgPhotos[lgIndex].update();
-    lgPhotos[lgIndex2].update();
-    lgPhotos[pLgIndex].update();
-    lgPhotos[pLgIndex2].update();
-
-    
+        
    // if(fmod(ofGetElapsedTimeMillis(),1000.0)==0){
     
-    if(mode ==0){
+    
+    
+    //updates for portrait mode
+    if(mode ==1){
+             
+    //check to see if it's time to switch photos
     if(ofGetElapsedTimeMillis()-lgMark>lgDispTime){
         lgMark = ofGetElapsedTimeMillis();
-        //lgIndex++;
-        pLgIndex = lgIndex;
-        lgIndex = ofRandom(numPhotos);
-       // lgPhotos[lgIndex].alphaVal = 0;
-        lgPhotos[lgIndex2].fade = false;
         
-        if(lgIndex==numPhotos){
-            lgIndex=0;
-            
-        }
-        }
+        switchLargePhotos();
+        
+             }
         
         if(ofGetElapsedTimeMillis()-lgMark>lgDispTime-lgFadeTime){
         lgPhotos[lgIndex].fade = true;
@@ -240,20 +242,8 @@ void testApp::update(){
     
         
     if(modeSwitch){
-    if(ofGetElapsedTimeMillis()-modeMark>10000){
-        modeMark = ofGetElapsedTimeMillis();
-        mode++;
-    
-        if(mode>2){
-            mode = 0;
-        }
-        
-        
-        if(mode ==2){
-           // formLetters();
-            
-        }
-    }
+    //check to see if it's time to switch modes and do it
+        switchModes();
     }
     
     }
@@ -261,18 +251,15 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     
-    if(white){
-      ofBackground(255);
+    if(mode==1){
+         ofBackground(0);
+        displayLargePhotos();
+        
     }
-    else
-    ofBackground(0);
+   
+    if(mode==0){
     
     ofFill();
-    
-    //ofPushMatrix();
-   // ofScale(scale,scale);
-   // ofTranslate(translate.x, translate.y);
-    
         
    
     if(displayLogo){
@@ -280,7 +267,9 @@ void testApp::draw(){
     }
     
     ofSetColor(50);
-    ofRect(w-mapBoxWidth, headerHeight, mapBoxWidth, h-headerHeight-footerHeight);
+    //ofRect(mapBoxX, headerHeight, mapBoxWidth, h-headerHeight-footerHeight);
+    
+    ofRect(0, headerHeight, w, h-headerHeight-footerHeight);
     //draw bg word texture
     
     
@@ -297,27 +286,13 @@ void testApp::draw(){
     //ofTranslate(w-100, h-100);
        ofEnableAlphaBlending();
 
-    ofTranslate(w - mapBoxWidth + (mapBoxWidth- map.getWidth())/2, h-mapBoxheight+(mapBoxheight-map.getHeight())/2-footerHeight);
+    ofTranslate(mapBoxX + (mapBoxWidth- map.getWidth())/2, h-mapBoxheight+(mapBoxheight-map.getHeight())/2-footerHeight);
        map.draw();
        ofDisableAlphaBlending();
     ofPopMatrix();
     }
     
-    
-//    if(mode == 0){
-//        ofEnableAlphaBlending();
-//        ofSetColor(255,255,255,255);
-//        lgPhotos[lgIndex].draw();
-//        ofPushMatrix();
-//        ofTranslate(lgPhotos[lgIndex].dims.x, 0);
-//        
-//        lgPhotos[lgIndex2].draw();
-//        
-//        ofPopMatrix();
-//        ofDisableAlphaBlending();
-//        
-//    }
-    
+     
     
     ofSetColor(160, 60, 0);
     ofRect(0, 0, w, headerHeight);
@@ -335,7 +310,7 @@ void testApp::draw(){
        keywords[featured].draw(din);
       
     
-   
+    }
     
    }
 
@@ -360,49 +335,7 @@ void testApp::keyPressed(int key){
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
     
-    
-    if(key == 'l'){
-    
-        //formLetters();
-    }
-    
-    
-    if(key == 'q'){
-    
-        cout<<logoPos.x<<" , "<<logoPos.y<<endl;
-    }
-    
-    
-    if(key=='r'){
-    for(int i = 0; i<numDisplay; i++){
-        //cout<<"t shape = "<<tShape<<", shape = "<<shape<<"\n";
-        scPhotos[i].shapeTrans("rect");
-       // scPhotos[i].process();
-    }
-    }
-    
-    if(key=='c'){
-        for(int i = 0; i<numDisplay; i++){
-            scPhotos[i].shapeTrans("circ");
-           // scPhotos[i].process();
-        }
-    }
-    
-    
-    if(key=='='){
-        scale+= .1;
-
-    }
-    if(key=='-'){
-        scale-= .1;
-        
-    }
-
-    if(key == ' '){
-    
-        white=!white;
-    }
-    
+       
 }
 
 //--------------------------------------------------------------
@@ -472,7 +405,7 @@ void testApp::switchKW(){
 
     if(ofGetElapsedTimeMillis()-kwSwitchMark>kwSwitchTresh){
         kwSwitchMark=ofGetElapsedTimeMillis();
-        
+        switchCount++;
        
         int k = ofRandom(keywords.size());
         
@@ -500,6 +433,7 @@ void testApp::switchKW(){
         featured=k;
         pointIndex=0;
         //kwSwitchTresh=pointDelay*keywords[featured].interviews.size();
+        
         
     }
 }
@@ -542,4 +476,74 @@ void testApp::drawPoints(){
     //pointMark=ofGetElapsedTimeMillis();
     
     
+}
+
+
+
+void testApp::switchLargePhotos(){
+    switchCount++;
+    int p1 = ofRandom(0,images.size()/2);
+    int p2 = ofRandom(images.size()/2,images.size());
+    
+    lg1=images[p1];
+    lg2=images[p2];
+ 
+    
+}
+
+
+void testApp::displayLargePhotos(){
+    //lgPhotos[0].draw();
+    
+    int rectW = 20;
+    int lgPhotoX = ofGetWidth()/2-lg1.getWidth()-rectW/2;
+    
+    ofSetColor(255);
+    ofRect(lgPhotoX+lg1.getWidth(), headerHeight, rectW, lg1.getHeight());
+    lg1.draw(lgPhotoX, headerHeight, lg1.width, lg1.height);
+    lg2.draw(lg1.width+lgPhotoX+rectW, headerHeight, lg2.width, lg2.height);
+    
+    headerTextWidth = headerFont.getStringBoundingBox(headerText, 0, 0).width;
+    
+    headerTextX = w/2-headerTextWidth/2-rectW/2;
+    displayHeader(lgPhotoX, lg1.getWidth()*2+rectW);
+    
+}
+
+//draws the header
+void testApp::displayHeader(int _x, int _w){
+    
+    ofSetColor(160, 60, 0);
+    ofRect(_x, 0, _w, headerHeight);
+    
+    ofSetColor(255);
+    
+    
+    headerFont.drawString(headerText, headerTextX, headerHeight-(headerHeight/2-headerFont.getSize()/2));
+    
+    
+}
+
+//function to check if it's time to switch modes
+void testApp::switchModes(){
+    if(switchCount>switchThresh){
+        //switch form mode 1 to 0
+        if(mode==1){
+            mode=0;
+            switchCount=0;
+             headerText = "What is Chicago Talking About?";
+        }
+          //switch form mode 0 to 1
+        else if(mode==0){
+            headerText = "Who is telling their stories?";
+
+            mode=1;
+             switchCount=0;
+        }
+
+        
+    }
+
+
+
 }

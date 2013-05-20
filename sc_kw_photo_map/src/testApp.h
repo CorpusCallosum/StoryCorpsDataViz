@@ -30,6 +30,11 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+        void switchLargePhotos();
+        void displayLargePhotos();
+        void displayHeader(int _x, int _w);
+    void switchModes();
+    
     
     bool modeSwitch;
     bool white;
@@ -54,6 +59,9 @@ class testApp : public ofBaseApp{
     int featured=0;
     
     
+    ofImage lg1;
+    ofImage lg2;
+    
     string selectKW;
     vector<string> displayKWs;
     vector<ofVec2f>bgKWlocs;
@@ -66,6 +74,10 @@ class testApp : public ofBaseApp{
     float bgWordScale =.15;
     ofTrueTypeFont selectFont;
      //ofTrueTypeFont bgFont;
+    
+    int switchCount=0;
+     int switchThresh=5;
+    
     
     int headerHeight;
     int footerHeight = 0;
@@ -80,8 +92,8 @@ class testApp : public ofBaseApp{
     int pLgIndex;
     int pLgIndex2;
     
-    long lgFadeTime;
-    long lgDispTime;
+    long lgFadeTime=100;
+    long lgDispTime=2000;
     long lgMark;
     long lgMark2;
     
