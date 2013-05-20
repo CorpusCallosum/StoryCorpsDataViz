@@ -44,12 +44,11 @@ void scPhoto:: init(string _interviewID, ofVec2f _pos, ofVec2f _dims){
     getLocation("60064");//just a test of the function to pass in zip and get x,y pair
     
     //initialize variables
-    //image.loadImage(interviewID);
+  //  image.loadImage(interviewID);
     //image = _image;
     //image.resize(_w,_h);
     tPos = pos;
     tDims = dims;
-    
     
     ease = ofVec2f(10,10);
     alphaVal = 255;
@@ -84,7 +83,7 @@ void scPhoto:: init(ofImage _image, ofVec2f _pos, ofVec2f _dims){
     ofVec2f zLoc=ofVec2f(ofRandom(ofGetWidth()/2,ofGetWidth()),ofRandom(ofGetHeight()/2,ofGetHeight()));
     
     zipLoc=zLoc;
-    getLocation("60064");//just a test of the function to pass in zip and get x,y pair
+   // getLocation("60064");//just a test of the function to pass in zip and get x,y pair
     
     //initialize variables
     //image.loadImage(_file);
@@ -116,10 +115,9 @@ void scPhoto::draw(){
     
     
     ofSetColor(255,255,255,alphaVal);
-    
     if(image.isAllocated()){
+    
     image.draw(pos.x,pos.y,dims.x*textScale,dims.y*textScale);
-    }
     //ofNoFill();
     //ofSetLineWidth(5);
     
@@ -131,7 +129,7 @@ void scPhoto::draw(){
     ofFill();
     //ofRect(x,y,w,h);
     ofDisableAlphaBlending();
-    
+    }
     
     if(shade){
         ofEnableAlphaBlending();
@@ -164,7 +162,7 @@ void scPhoto::checkMouse(int _x, int _y){
 }
 
 void scPhoto::process(){
-   
+    
     if(image.isAllocated()){
     image.setImageType(OF_IMAGE_COLOR_ALPHA);
     unsigned char * pixels = image.getPixels();
@@ -189,7 +187,6 @@ void scPhoto::process(){
     }
     // delete [] pixels;
     image.update();
-    
     }
 }
 

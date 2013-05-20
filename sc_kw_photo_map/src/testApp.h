@@ -29,9 +29,6 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    void switchLargePhotos();
-        void displayLargePhotos();
-    void displayHeader(int _x, int _w);
     
     
     bool modeSwitch;
@@ -117,9 +114,6 @@ class testApp : public ofBaseApp{
     long pointMark=0;
     int pointDelay=1000;
     
-    
-    ofImage lg1;
-    ofImage lg2;
     
     ofDirectory dir;
     vector<ofImage> images;

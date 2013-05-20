@@ -170,5 +170,9 @@ dependencies: \
   ../../../libs/poco/include/Poco/DOM/NodeList.h \
   /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/ofxCsv/src/ofxCsv.h \
   /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/src/scKeyword.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/src/interviewData/InterviewData.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/src/data.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/ofxXmlSettings/src/ofxXmlSettings.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/ofxXmlSettings/libs/tinyxml.h \
   ../../../libs/openFrameworks/app/ofAppGlutWindow.h \
   ../../../libs/openFrameworks/app/ofAppBaseWindow.h

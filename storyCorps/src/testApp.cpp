@@ -53,14 +53,24 @@ void testApp::setup(){
     
     cout << "total unique tags: " << data.keywords.size() << endl;
     
-    string k = "Addictions";
-    std::vector<InterviewData> interviews = data.getInterviewsWithKeyword(k);
     
+    string k = "Inspiration Cafe";
+    std::vector<InterviewData> interviews = data.getInterviewsWithKeyword(k);
     //pcout
     cout << endl << endl << k <<" interviews: " << endl;
     for (int i = 0; i<interviews.size(); i++){
        cout << i << " id: " << interviews[i].interviewID << ", zip: " << interviews[i].zip <<endl;
     }
+    
+    
+    k = "Uncles";
+    interviews = data.getInterviewsWithKeyword(k);
+    //pcout
+    cout << endl << endl << k <<" interviews: " << endl;
+    for (int i = 0; i<interviews.size(); i++){
+        cout << i << " id: " << interviews[i].interviewID << ", zip: " << interviews[i].zip <<endl;
+    }
+    
     
     //testing getting zip codes
     string zip = data.getZipForId("SCK000568");
@@ -68,6 +78,10 @@ void testApp::setup(){
     cout << "SCK000568 zip: " << zip << endl;
     cout << "GRS000322 zip: " << data.getZipForId("GRS000322") << endl;
 
+}
+
+void randomKW(){
+    
 }
 
 //--------------------------------------------------------------
@@ -90,7 +104,10 @@ void testApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
-		
+	//if(key == " "){
+        //load new random keyword
+        
+   // }
 }
 
 //--------------------------------------------------------------

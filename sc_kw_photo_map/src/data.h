@@ -6,6 +6,8 @@
 //
 //
 
+#ifndef __scPhotoFont__data__
+#define __scPhotoFont__data__
 
 #include "ofMain.h"
 #include "ofxCsv.h"
@@ -40,3 +42,5 @@ class data
         std::vector<std::pair<string, int> > keywords;
         zipcodes zipcodes;
 };
+
+#endif /* defined(__scPhotoFont__data__) */

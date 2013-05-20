@@ -115,4 +115,9 @@ dependencies: \
   ../../../libs/openFrameworks/3d/ofCamera.h \
   ../../../libs/openFrameworks/3d/ofEasyCam.h \
   /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/src/../scPhoto.h \
-  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/src/zipcodes.h
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/src/zipcodes.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/src/interviewData/InterviewData.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/src/data.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/ofxCsv/src/ofxCsv.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/ofxXmlSettings/src/ofxXmlSettings.h \
+  /Volumes/HD2/OpenFrameworks/of_v0.7.4_osx_release/apps/StoryCorpsDataViz/sc_kw_photo_map/ofxXmlSettings/libs/tinyxml.h

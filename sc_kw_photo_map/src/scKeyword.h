@@ -14,6 +14,7 @@
 #include "scPhoto.h"
 #include "zipcodes.h"
 #include "interviewData/InterviewData.h"
+#include "data.h";
 
 
 class scKeyword {
@@ -48,12 +49,14 @@ public:
     ofTrueTypeFont font;
     //methods
     
-    void init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2, ofTrueTypeFont _font);
+    void init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2, ofTrueTypeFont _font, data scData);
     void draw(ofTrueTypeFont _font);
     void update();
     void setTarg(ofVec2f tPos);
     void move();
-    void setFeatured(vector<InterviewData> _interviews);
+    void setFeatured();
+    //void setFeatured(vector<InterviewData> _interviews);
+
     void setBg();
     
     void getInterviews();
@@ -61,6 +64,8 @@ public:
     void drawPoints();
     void addPhoto(int p);
     void addPoint(int p);
+    
+    vector<InterviewData> interviewDataObjects;
      
 };
 

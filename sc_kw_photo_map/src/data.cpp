@@ -42,50 +42,50 @@ void data::parse(){
     cout << "parse" << endl;
     //prep the particiapnt xml file
     participantXML.pushTag("Document");
-
+    
     //iterate through all keywords in the XML file and generate a list of all the keywords used and their frequencies
     //add keyword to keyword list if it is not already in the list
     //go to first row with data in it
-    XML.pushTag("Workbook");
-    XML.pushTag("Worksheet");
-    XML.pushTag("Table");
+    XML.pushTag("Document");
+    // XML.pushTag("Worksheet");
+    // XML.pushTag("Table");
     int numRows = XML.getNumTags("Row");
     for (int rCnt = 1;rCnt < numRows ;rCnt++){
         XML.pushTag("Row",rCnt);
-    //now i need to iterate through all the cells of the row and look for the one with the correct index of 86
-        int numCells = XML.getNumTags("Cell");
-        bool collectKeywords = false;
-
-    for (int cCnt = 0;cCnt< numCells;cCnt++){
-        if(XML.getAttribute("Cell", "ss:Index", 0, cCnt) == 86){
-            collectKeywords = true;
-        }
+        //now i need to iterate through all the cells of the row and look for the one with the correct index of 86
+        //    int numCells = XML.getNumTags("Cell");
+        //    bool collectKeywords = false;
+        
+        // for (int cCnt = 0;cCnt< numCells;cCnt++){
+        //   if(XML.getAttribute("Cell", "ss:Index", 0, cCnt) == 86){
+        //     collectKeywords = true;
+        //}
+        
+        
         
         //get all keywords in cells starting at cell 86
-        if(collectKeywords){
-            
-            XML.pushTag("Cell",cCnt);//col with keywords
-            string kws = XML.getValue("Data","");//this should return the keywords that need to be split at the return
-            
-         
-          
-            addKeywords(kws);
-            
-            XML.popTag();
-            
-         
-        }
+        //  if(collectKeywords){
         
-    }
+        //  XML.pushTag("Cell",cCnt);//col with keywords
+        // string kws = XML.getValue("Field_85","");//this should return the keywords that need to be split at the return
+        addKeywords(XML.getValue("Field_85",""));
+        addKeywords(XML.getValue("Field_86",""));
+        addKeywords(XML.getValue("Field_87",""));
+        addKeywords(XML.getValue("Field_88",""));
+        
         XML.popTag();
-
+        //  }
+        
+        //  }
+        // XML.popTag();
+        
     }
     
     //keyword list has been generated, let's see it!
     /*cout << endl << endl << "KEYWORD LIST: " << endl;
-    for (int kCnt = 0; kCnt<keywords.size(); kCnt++){
-        //cout << keywords[kCnt].first << ", "<< keywords[kCnt].second << endl;
-    }*/
+     for (int kCnt = 0; kCnt<keywords.size(); kCnt++){
+     //cout << keywords[kCnt].first << ", "<< keywords[kCnt].second << endl;
+     }*/
     //sort the list
     struct sort_pred {
         bool operator()(const std::pair<string,int> &left, const std::pair<string,int> &right) {
@@ -97,19 +97,23 @@ void data::parse(){
     //std::sort(keywords.begin(), keywords.end(), boost::bind(&std::pair<string, int>::second, _1) < boost::bind(&std::pair<string, int>::second, _2));
     
     //now return the sorted list...
-    cout << endl << endl << "KEYWORD LIST: " << endl;
+   /* cout << endl << endl << "KEYWORD LIST: " << endl;
     for (int kCnt = 0; kCnt<keywords.size(); kCnt++){
         cout << keywords[kCnt].first << ", "<< keywords[kCnt].second << endl;
-    }
+    }*/
 }
 
 void data::addKeywords(string k){
+    if(k != ""){
     
     vector<string> skws = ofSplitString(k, "|");
     
     for (int i = 0; i < skws.size(); i++){
         //add keyword to list of keywords...
-        addKeyword(skws[i]);
+       // if(skws[i] != ""){
+            addKeyword(skws[i]);
+       // }
+    }
     }
     
 }
@@ -140,41 +144,42 @@ std::vector<InterviewData> data::getInterviewsWithKeyword(string k){
         
         XML.pushTag("Row",rCnt);
         //now i need to iterate through all the cells of the row and look for the one with the correct index of 86
-        for (int i = 0;i< XML.getNumTags("Cell");i++){
+      //  for (int i = 0;i< XML.getNumTags("Cell");i++){
             //  cout << "cell:";
             //  cout << i << endl;
-            if(XML.getAttribute("Cell", "ss:Index", 0, i) == 86){
-                XML.pushTag("Cell",i);//col with keywords
-                string kws = XML.getValue("Data","");//this should return the keywords that need to be split at the return
-                
+        //    if(XML.getAttribute("Cell", "ss:Index", 0, i) == 86){
+          //      XML.pushTag("Cell",i);//col with keywords
+                string kws = XML.getValue("Field_85","");//this should return the keywords that need to be split at the return
+        
+        kws += "|"+XML.getValue("Field_86","");
+        kws += "|"+XML.getValue("Field_87","");
+        kws += "|"+XML.getValue("Field_88","");
+
+
+        
                 vector<string> skws = ofSplitString(kws, "|");
+                
+        
                 for (int i = 0; i < skws.size(); i++){
+                    //if keyword is found...
                     if(skws[i] == k){
                         //create new interview object
                         InterviewData id;
-                        XML.popTag();
-                        XML.pushTag("Cell",0);
-                        string interviewID = XML.getValue("Data","");
+                        string interviewID = XML.getValue("Field_0","");
                         
                         id.interviewID = interviewID;
-                        // XML.popTag();
                         id.zip = getZipForId(interviewID);
-                        // *** here is where we need to add the location information
-                        
-                        //
-                        //string location="60002";//sample string to input into the zip code data function
-                        //but the location will really be passed in based on the individual ID, as a vector probably
-                        //zipcodes.getIncomingZip(location);
-                        
-                        //***
+                 
                         interviews.push_back(id);
+
+                        break;
                     }
                     
                 }
-                XML.popTag();
-                break;
-            }
-        }
+
+        
+           // }
+       // }
         XML.popTag();
         
     }
