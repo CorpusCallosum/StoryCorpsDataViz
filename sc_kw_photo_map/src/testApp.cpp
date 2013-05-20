@@ -3,8 +3,8 @@
 void testApp::setup(){
     
     
-    mode=1;
-    //mode=0;
+    //mode=1;
+    mode=0;
     
     ofSetDataPathRoot("../Resources/data/");
     displayMap = true;
@@ -22,6 +22,7 @@ void testApp::setup(){
     
     w = ofGetWidth();
     h = ofGetHeight();
+    
     
     
     headerFont.loadFont("DINPro-Regular.otf", 44);
@@ -83,7 +84,11 @@ void testApp::setup(){
     
     if(mode==0 || modeSwitch == true){
     //load list of key words
-    dispKW.loadFile(ofToDataPath("kw.csv"));
+        //run with 10 keywords
+    dispKW.loadFile(ofToDataPath("kw10.csv"));
+        
+        //run with 70 keywords
+        //dispKW.loadFile(ofToDataPath("kw70.csv"));
     cout << "load keywords, size:" << dispKW.numRows << endl;
     
     //setup data object
@@ -109,8 +114,33 @@ void testApp::setup(){
         keywords[i].init(s, tempPos, lim1, lim2, din, scData);
         
     }
-    }
+    
   
+    //initialize cloud kewwords
+    bgKW.loadFile(ofToDataPath("kwOrig.csv"));
+        cout << "bg keywords, size:" << bgKW.numRows << endl;
+    for(int i = 0; i<bgKW.numRows; i++){
+        string s = bgKW.data[i][0];
+        
+        
+        ofVec2f tempPos = ofVec2f(ofRandom(0,w),ofRandom(0,h));
+
+        
+        scKeyword kw;
+        
+        bgKeywords.push_back(kw);
+        
+        
+        ofVec2f lim1= ofVec2f(0,0);
+        ofVec2f lim2= ofVec2f(w,h);
+        
+        bgKeywords[i].initBG(s, tempPos, lim1, lim2, din);
+    
+    }
+
+    }
+    
+    
     numDisplay = gridX * gridY;
    // cout<<"numDisplay: "<<numDisplay;
     //load photos from directory into photos vector
@@ -126,45 +156,45 @@ void testApp::setup(){
        // cout<<"images size"<<images.size()<<"\n";
         
         //load large images
-        
-        for(int i=0; i <numPhotos; i++){
-            
-            int m = 4;
-            //images[i].resize(dims.x*m,dims.y*m);
-             scPhoto p;
-            lgPhotos.push_back(p);
-            lgPhotos[i].init(images[i],ofVec2f(w/2-dims.x*m/2, headerHeight),ofVec2f(dims.x*m,dims.y*m));
-            lgPhotos[i].fade = true;
-            lgPhotos[i].alphaVal =0;
-        }
+//        
+//        for(int i=0; i <numPhotos; i++){
+//            
+//            int m = 4;
+//            //images[i].resize(dims.x*m,dims.y*m);
+//             scPhoto p;
+//            lgPhotos.push_back(p);
+//            lgPhotos[i].init(images[i],ofVec2f(w/2-dims.x*m/2, headerHeight),ofVec2f(dims.x*m,dims.y*m));
+//            lgPhotos[i].fade = true;
+//            lgPhotos[i].alphaVal =0;
+//        }
 
         
         
-        //resize photos
-        for(int i=0; i<numPhotos; i++) {
-            //images[i].resize(dims.x,dims.y);
-            
-        }
+//        //resize photos
+//        for(int i=0; i<numPhotos; i++) {
+//            //images[i].resize(dims.x,dims.y);
+//            
+//        }
+//        
         
-               
         
-        //load images into scPhoto objects
-        for(int i=0; i <numDisplay; i++){
-            ofVec2f v =ofVec2f(0,headerHeight);
-            scPhoto p;
-           scPhotos.push_back(p);
-           // cout<<"scPhotos size "<<scPhotos.size()<<"\n";
-            
-           scPhotos[i].init(images[ofRandom(images.size())], v, dims);
-        }
+//        //load images into scPhoto objects
+//        for(int i=0; i <numDisplay; i++){
+//            ofVec2f v =ofVec2f(0,headerHeight);
+//            scPhoto p;
+//           scPhotos.push_back(p);
+//           // cout<<"scPhotos size "<<scPhotos.size()<<"\n";
+//            
+//           scPhotos[i].init(images[ofRandom(images.size())], v, dims);
+//        }
         
-        for(int y = 0; y< gridY; y++){
-            for(int x = 0; x< gridX; x++){
-                int index = y*gridX+x;
-                scPhotos[index].process();
-                
-            }
-        }
+//        for(int y = 0; y< gridY; y++){
+//            for(int x = 0; x< gridX; x++){
+//                int index = y*gridX+x;
+//                scPhotos[index].process();
+//                
+//            }
+//        }
     }
     
        
@@ -181,12 +211,17 @@ void testApp::update(){
     switchKW();
     for(int i=0; i<keywords.size();i++){
         keywords[i].move();
+      
         //if(keywords[i].featured){
             keywords[i].update();
+            //bgKeywords[i].update();
         //}
     
     }
     
+        for(int i = 0; i<bgKeywords.size(); i++){
+             bgKeywords[i].move();
+        }
     
         //updates for displaying photos in map mode
 //    for(int i = 0; i<numDisplay;i++){
@@ -216,29 +251,29 @@ void testApp::update(){
              }
         
         if(ofGetElapsedTimeMillis()-lgMark>lgDispTime-lgFadeTime){
-        lgPhotos[lgIndex].fade = true;
+        //lgPhotos[lgIndex].fade = true;
         }
         
         
     
-    if(ofGetElapsedTimeMillis()-lgMark2>lgDispTime){
-        lgMark2 = ofGetElapsedTimeMillis();
-            //lgIndex++;
-        pLgIndex2 = lgIndex2;
-        lgIndex2 = ofRandom(numPhotos);
-        
-       // lgPhotos[lgIndex2].alphaVal = 0;
-        lgPhotos[lgIndex2].fade = false;
-        
-            if(lgIndex2==numPhotos){
-                lgIndex2=0;
-            }
-    }
+//    if(ofGetElapsedTimeMillis()-lgMark2>lgDispTime){
+//        lgMark2 = ofGetElapsedTimeMillis();
+//            //lgIndex++;
+//        pLgIndex2 = lgIndex2;
+//        lgIndex2 = ofRandom(numPhotos);
+//        
+//       // lgPhotos[lgIndex2].alphaVal = 0;
+//       // lgPhotos[lgIndex2].fade = false;
+//        
+//            if(lgIndex2==numPhotos){
+//                lgIndex2=0;
+//            }
+//    }
     }
     
-    if(ofGetElapsedTimeMillis()-lgMark2>lgDispTime-lgFadeTime){
-        lgPhotos[lgIndex2].fade = true;
-    }
+//    if(ofGetElapsedTimeMillis()-lgMark2>lgDispTime-lgFadeTime){
+//        //lgPhotos[lgIndex2].fade = true;
+//    }
     
         
     if(modeSwitch){
@@ -269,15 +304,19 @@ void testApp::draw(){
     ofSetColor(50);
     //ofRect(mapBoxX, headerHeight, mapBoxWidth, h-headerHeight-footerHeight);
     
-    ofRect(0, headerHeight, w, h-headerHeight-footerHeight);
+    ofRect(0, headerHeight, ofGetWindowWidth(), ofGetWindowHeight()-headerHeight-footerHeight);
     //draw bg word texture
     
     
     for(int i = 0; i<keywords.size(); i++){
         if(!keywords[i].featured){
         keywords[i].draw(din);
-        }
+               }
     }
+        
+        for(int i = 0; i<bgKeywords.size(); i++){
+            bgKeywords[i].draw(din);
+        }
     
     
    if(displayMap){
@@ -294,20 +333,24 @@ void testApp::draw(){
     
      
     
-    ofSetColor(160, 60, 0);
-    ofRect(0, 0, w, headerHeight);
-    
-    ofSetColor(255);
-   
-    headerFont.drawString(headerText, headerTextX, headerHeight-(headerHeight/2-headerFont.getSize()/2));
-    
+       
     
     keywords[featured].drawPhotos(gridX, gridY, dims.x, dims.y, headerHeight);
     
+      
 
     drawPoints();
     
+
        keywords[featured].draw(din);
+        
+        ofSetColor(160, 60, 0);
+        ofRect(0, 0, w, headerHeight);
+        
+        ofSetColor(255);
+        
+        headerFont.drawString(headerText, headerTextX, headerHeight-(headerHeight/2-headerFont.getSize()/2));
+
       
     
     }
@@ -359,6 +402,8 @@ void testApp::mouseDragged(int x, int y, int button){
 void testApp::mousePressed(int x, int y, int button){
 
     pMousePos = ofVec2f(x,y);
+    
+    cout<<"mouse pos= "<<x<<", "<<y<<endl;
     
 }
 
@@ -427,8 +472,9 @@ void testApp::switchKW(){
         
        
         //keywords[k].getInterviews(_interviews);
+         keywords[featured].setBg();
         keywords[k].setFeatured();
-        keywords[featured].setBg();
+       
         //keywords[featured].featured=false;
         featured=k;
         pointIndex=0;
@@ -498,14 +544,18 @@ void testApp::displayLargePhotos(){
     int rectW = 20;
     int lgPhotoX = ofGetWidth()/2-lg1.getWidth()-rectW/2;
     
-    ofSetColor(255);
+    //ofSetColor(255);
+    ofSetColor(160, 60, 0);
+
     ofRect(lgPhotoX+lg1.getWidth(), headerHeight, rectW, lg1.getHeight());
+    
+     ofSetColor(255);
     lg1.draw(lgPhotoX, headerHeight, lg1.width, lg1.height);
     lg2.draw(lg1.width+lgPhotoX+rectW, headerHeight, lg2.width, lg2.height);
     
-    headerTextWidth = headerFont.getStringBoundingBox(headerText, 0, 0).width;
+    //headerTextWidth = headerFont.getStringBoundingBox(headerText, 0, 0).width;
     
-    headerTextX = w/2-headerTextWidth/2-rectW/2;
+    //headerTextX = w/2-headerTextWidth/2-rectW/2;
     displayHeader(lgPhotoX, lg1.getWidth()*2+rectW);
     
 }
@@ -531,11 +581,23 @@ void testApp::switchModes(){
         if(mode==1){
             mode=0;
             switchCount=0;
-             headerText = "What is Chicago Talking About?";
+             headerText = "What Is Chicago Talking About?";
+            
+            headerTextWidth = headerFont.getStringBoundingBox(headerText, 0, 0).width;
+            
+            headerTextX = ofGetWindowWidth()/2-headerTextWidth/2;
+            
+            
         }
           //switch form mode 0 to 1
         else if(mode==0){
-            headerText = "Who is telling their stories?";
+            headerText = "Who Is Telling Their Stories?";
+            
+            headerTextWidth = headerFont.getStringBoundingBox(headerText, 0, 0).width;
+            
+            headerTextX = ofGetWindowWidth()/2-headerTextWidth/2;
+            
+
 
             mode=1;
              switchCount=0;

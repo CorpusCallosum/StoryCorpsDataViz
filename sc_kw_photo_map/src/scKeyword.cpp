@@ -9,16 +9,38 @@
 #include "scKeyword.h"
 #include "interviewData/InterviewData.h"
 
+void scKeyword::initBG(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2, ofTrueTypeFont _font){
+
+    keyword = _keyword;
+    pos = _pos;
+    font = _font;
+    
+    limit1 = _lim1;
+    limit2 = _lim2;
+    
+    int neg[2] = {-1,1};
+    int neg1 = neg[ofToInt(ofToString(ofRandom(2)))];
+    int neg2 = neg[ofToInt(ofToString(ofRandom(2)))];
+    
+    float speedMax=.2;
+    float speedMin=.05;
+    
+    speed = ofVec2f(ofRandom(speedMin, speedMax)*neg1,ofRandom(speedMin, speedMax)*neg2);
+    
+    color= ofColor(ofRandom(55,110));
+
+}
+
 
 void scKeyword::init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2, ofTrueTypeFont _font,
                      data scData){
     
-    cout << "initialize keyword:" << _keyword << endl;
+    //cout << "initialize keyword:" << _keyword << endl;
 
 
     keyword = _keyword;
     pos = _pos;
-    
+    font = _font;
     
     limit1 = _lim1;
     limit2 = _lim2;
@@ -33,7 +55,7 @@ void scKeyword::init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2
     speed = ofVec2f(ofRandom(speedMin, speedMax)*neg1,ofRandom(speedMin, speedMax)*neg2);
 
     color= ofColor(ofRandom(55,110));
-    font=_font;
+    
     
     //generate vector of interview data objects for the keyword
     interviewDataObjects = scData.getInterviewsWithKeyword(_keyword);
@@ -47,7 +69,7 @@ void scKeyword::init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2
         p.init(interviewDataObjects[i].interviewID, ofVec2f(0,0),ofVec2f(0,0));
         //set photo zip code
         p.zip = zip;
-        cout <<"zip: " << p.zip << endl;
+        //cout <<"zip: " << p.zip << endl;
         //set x and y target location on map
         p.zipLoc = p.getLocation(p.zip);
         
@@ -61,9 +83,20 @@ void scKeyword::init(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2
 void scKeyword::draw(ofTrueTypeFont _font){
     ofPushMatrix();
     ofScale(scale,scale);
-    ofSetColor(color);
+   
     
+    //if(abs(tScale-scale)<.1){
+    if(featured){
+    int a= ofMap(abs(tScale-scale), 1, 0, 0, 255);
+        ofSetColor(0, a);
+        _font.drawString(keyword, pos.x/scale+3, pos.y/scale+3);
+    //}
+    }
+     ofSetColor(color);
     _font.drawString(keyword, pos.x/scale, pos.y/scale);
+    
+    
+
     
     ofPopMatrix();
 
@@ -162,8 +195,8 @@ void scKeyword::setFeatured(){
     
     tScale = ( tWidth/font.stringWidth(keyword));
     
-    if(tScale>1){
-        tScale=1;
+    if(tScale>1.3){
+        tScale=1.3;
     }
     
     tPos = ofVec2f(limit1.x+(limit2.x-limit1.x)/2-(font.stringWidth(keyword)*tScale/2), (limit1.y+(limit2.y-limit1.y)/2)+font.stringHeight(keyword)/2 );
@@ -201,8 +234,16 @@ void scKeyword::setBg(){
     featured = false;
     moving = true;
     color= ofColor(ofRandom(55,110));
-    tScale = .15;
+    tScale = .2;
+     for(int i=0; i< interviews.size(); i++){
+         interviews[i].tPointLoc.x= ofGetWidth()/2;
+         interviews[i].tPointLoc.y= ofGetHeight()/2;
+    interviews[i].pointLoc.x= ofGetWidth()/2;
+    interviews[i].pointLoc.y= ofGetHeight()/2;
+         
+         interviews[i].tPointAlpha=0;
 
+     }
 }
 
 
@@ -241,8 +282,8 @@ void scKeyword::drawPhotos(int _gridX, int _gridY, int _dimX, int _dimY, int _of
                if(!photoInit){
                interviews[index].tPos.x=x*_dimX;
                 interviews[index].tPos.y=y*_dimY+_offset;
-                interviews[index].tPointLoc= interviews[index].tPos;
-                interviews[index].pointLoc= interviews[index].tPointLoc;
+                //interviews[index].tPointLoc= interviews[index].tPos;
+                //interviews[index].pointLoc= interviews[index].tPointLoc;
                   
                }
         interviews[index].draw();

@@ -50,6 +50,9 @@ void scPhoto:: init(string _interviewID, ofVec2f _pos, ofVec2f _dims){
     tPos = pos;
     tDims = dims;
     
+    pointLoc.x= ofGetWidth()/2;
+    pointLoc.y= ofGetHeight()/2;
+    
     ease = ofVec2f(10,10);
     alphaVal = 255;
     fade = false;
@@ -342,14 +345,24 @@ void scPhoto::drawPoint(){
     //    }
     
     //    else {
-    ofSetColor(255, 50, 0, pointAlpha);
+    
     pointSize=10;
     
     //}
     
+    
     ofEnableAlphaBlending();
     
+    ofSetColor(255, 40,0, pointAlpha);
     ofCircle(pointLoc.x,pointLoc.y,pointSize);
+    ofSetColor(255, pointAlpha);
+   
+    ofCircle(pointLoc.x,pointLoc.y,pointSize-3);
+  
+    
+   //ofSetColor(255);
+    
+    //ofDrawBitmapString(zip,pointLoc.x,pointLoc.y);
     
     //cout<<"got here"<<endl;
     ofDisableAlphaBlending();

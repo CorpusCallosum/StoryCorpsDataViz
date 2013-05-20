@@ -23,8 +23,8 @@ void zipcodes::getIncomingZip(string Mlocation)
     //these should be set as the map is loaded based on different map coordinates that we are using, scaling, and displaying but for sample points
     float mapSouthEdge = 41.576416;
     float mapNorthEdge = 42.360573;
-    float mapWestEdge =  -89.261169;
-    float mapEastEdge= -87.099609;
+    float mapWestEdge =  -87.935257;
+    float mapEastEdge= -87.52533;
     
     latitudeLongitude = mapData(coordinates, mapSouthEdge, mapNorthEdge, mapWestEdge, mapEastEdge);
 }
@@ -87,9 +87,25 @@ ofVec2f zipcodes::mapData(ofVec2f latlong, float mapSouthEdge, float mapNorthEdg
     // cout<<"x= "<< latlong[0]<<", y= "<< latlong[1]<<endl;//print out the points of the vector
     //basically extract x and y ...
     //cout<<latlong<<endl;
-    float y = ofMap(latlong[0], mapNorthEdge, mapSouthEdge, 0, ofGetWindowHeight()) ;
-    float x = ofMap(latlong[1], mapWestEdge, mapEastEdge, 0, ofGetWindowWidth())  ;
+    //float y=(latlong[0]*(963-801)/(42.360573-41.576416))+963;
+    //float x=(latlong[1]*(481-233)/(-87.935257- -87.52533))+481;
+    
+    float y1 = 233.0/900.0*ofGetHeight();
+     float y2 = 801.0/900.0*ofGetHeight();
+    
+    //cout<<"y1="<<y1<<endl;
+     //cout<<"y2="<<y2<<endl;
+    
+    float x1 = 481.0/1440.0*ofGetWidth();
+    float x2 = 963.0/1440.0*ofGetWidth();
+//    
+   // float y = ofMap(latlong[0], mapNorthEdge, mapSouthEdge, 233, 801) ;
+   //float x = ofMap(latlong[1], mapWestEdge, mapEastEdge, 481, 963) ;
+    
+    float y = ofMap(latlong[0], mapNorthEdge, mapSouthEdge, y1, y2) ;
+    float x = ofMap(latlong[1], mapWestEdge, mapEastEdge, x1, x2) ;
         ofVec2f newLatLong = ofVec2f(x,y);
+     //ofVec2f newLatLong = ofVec2f(y,x);
     return newLatLong;
     
 }

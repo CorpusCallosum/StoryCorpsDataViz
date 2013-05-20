@@ -50,11 +50,12 @@ class testApp : public ofBaseApp{
     ofTrueTypeFont din;
     
     string headerText = "What is Chicago Talking About?";
-    int headerTextX;
-    int headerTextWidth;
+    float headerTextX;
+    float headerTextWidth;
     ofTrueTypeFont headerFont;
     
     vector<scKeyword> keywords;
+    vector<scKeyword> bgKeywords;
     
     int featured=0;
     
@@ -67,7 +68,8 @@ class testApp : public ofBaseApp{
     vector<ofVec2f>bgKWlocs;
       vector<int>bgKWcols;
     ofxCsv dispKW;
-
+    
+    ofxCsv bgKW;
     ofxCsv csv;
 
     
@@ -93,7 +95,7 @@ class testApp : public ofBaseApp{
     int pLgIndex2;
     
     long lgFadeTime=100;
-    long lgDispTime=2000;
+    long lgDispTime=3000;
     long lgMark;
     long lgMark2;
     

@@ -39,7 +39,7 @@ public:
     ofColor color;
     zipcodes zipcodes;
     
-    float scale = .15;
+    float scale = .2;
     float tScale = scale;
     
     string keyword;
@@ -64,6 +64,7 @@ public:
     void drawPoints();
     void addPhoto(int p);
     void addPoint(int p);
+    void initBG(string _keyword, ofVec2f _pos, ofVec2f _lim1, ofVec2f _lim2, ofTrueTypeFont _font);
     
     vector<InterviewData> interviewDataObjects;
      
