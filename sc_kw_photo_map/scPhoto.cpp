@@ -44,7 +44,7 @@ void scPhoto:: init(string _interviewID, ofVec2f _pos, ofVec2f _dims){
     getLocation("60064");//just a test of the function to pass in zip and get x,y pair
     
     //initialize variables
-    image.loadImage(interviewID);
+    //image.loadImage(interviewID);
     //image = _image;
     //image.resize(_w,_h);
     tPos = pos;
@@ -116,7 +116,10 @@ void scPhoto::draw(){
     
     
     ofSetColor(255,255,255,alphaVal);
+    
+    if(image.isAllocated()){
     image.draw(pos.x,pos.y,dims.x*textScale,dims.y*textScale);
+    }
     //ofNoFill();
     //ofSetLineWidth(5);
     
@@ -161,6 +164,8 @@ void scPhoto::checkMouse(int _x, int _y){
 }
 
 void scPhoto::process(){
+   
+    if(image.isAllocated()){
     image.setImageType(OF_IMAGE_COLOR_ALPHA);
     unsigned char * pixels = image.getPixels();
     
@@ -185,6 +190,7 @@ void scPhoto::process(){
     // delete [] pixels;
     image.update();
     
+    }
 }
 
 

@@ -2,19 +2,21 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     
+    mode=1;
+     //mode=0;
+    
     ofSetDataPathRoot("../Resources/data/");
     displayMap = true;
     displayGrid = false;
     displayLg = true;
     modeSwitch = false;
     
-    lgDispTime = 400;
+    lgDispTime = 2000;
     lgFadeTime = 100;
     
     lgIndex = 0;
     lgIndex2 = 10;
     
-    mode =1;
     lgMark = 0;
     lgMark2 = 500;
     
@@ -29,7 +31,6 @@ void testApp::setup(){
     
     headerHeight = headerFont.getSize()*2;
 
-    
            
     cout<<"width: "<<w<<", height: "<<h<<endl;
     
@@ -44,10 +45,15 @@ void testApp::setup(){
     fontSize = h/3;
     cout<<"fontsize = "<<fontSize<<"\n";
     
-       
+    if(mode==1){
+    headerText = "Who is telling their stories?";
+    }
+    else headerText = "What is Chicago Talking About?";
+    
     ofSetFrameRate(100);
     int nodeTot = 0;
-    int nFiles = dir.listDir("photos");
+    //int nFiles = dir.listDir("g2");
+    int nFiles = dir.listDir("testPhotos");
     numPhotos = dir.numFiles();
     
     cout<<"Num Photos: "<<numPhotos<<"\n";
@@ -105,6 +111,9 @@ void testApp::setup(){
     numDisplay = gridX * gridY;
    // cout<<"numDisplay: "<<numDisplay;
     //load photos from directory into photos vector
+    
+    
+    
     if(nFiles) {
         for(int i=0; i<numPhotos; i++) {
             // add the image to the vector
@@ -121,7 +130,7 @@ void testApp::setup(){
         for(int i=0; i <numPhotos; i++){
             
             int m = 4;
-            images[i].resize(dims.x*m,dims.y*m);
+            //images[i].resize(dims.x*m,dims.y*m);
              scPhoto p;
             lgPhotos.push_back(p);
             lgPhotos[i].init(images[i],ofVec2f(w/2-dims.x*m/2, headerHeight),ofVec2f(dims.x*m,dims.y*m));
@@ -133,7 +142,7 @@ void testApp::setup(){
         
         //resize photos
         for(int i=0; i<numPhotos; i++) {
-            images[i].resize(dims.x,dims.y);
+           // images[i].resize(dims.x,dims.y);
             
         }
         
@@ -163,11 +172,14 @@ void testApp::setup(){
     scData.loadParticipantXML(ofToDataPath("search-export-participants-Interview.xml"));
     scData.parse();
     
+    switchLargePhotos();
+    
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     
+    if(mode==0){
     switchKW();
     for(int i=0; i<keywords.size();i++){
         keywords[i].move();
@@ -186,6 +198,8 @@ void testApp::update(){
         keywords[featured].interviews[i].update();
     }
     
+    }
+    
     
     lgPhotos[lgIndex].update();
     lgPhotos[lgIndex2].update();
@@ -195,19 +209,22 @@ void testApp::update(){
     
    // if(fmod(ofGetElapsedTimeMillis(),1000.0)==0){
     
-    if(mode ==0){
+    if(mode ==1){
     if(ofGetElapsedTimeMillis()-lgMark>lgDispTime){
         lgMark = ofGetElapsedTimeMillis();
-        //lgIndex++;
-        pLgIndex = lgIndex;
-        lgIndex = ofRandom(numPhotos);
-       // lgPhotos[lgIndex].alphaVal = 0;
-        lgPhotos[lgIndex2].fade = false;
         
-        if(lgIndex==numPhotos){
-            lgIndex=0;
-            
-        }
+        switchLargePhotos();
+        //lgIndex++;
+//        pLgIndex = lgIndex;
+//        lgIndex = ofRandom(numPhotos);
+       // lgPhotos[lgIndex].alphaVal = 0;
+        //lgPhotos[lgIndex2].fade = false;
+        
+//        if(lgIndex==numPhotos){
+//            lgIndex=0;
+//            
+//        }
+        
         }
         
         if(ofGetElapsedTimeMillis()-lgMark>lgDispTime-lgFadeTime){
@@ -258,19 +275,18 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     
-    if(white){
-      ofBackground(255);
-    }
-    else
-    ofBackground(0);
+    ofBackground(50);
     
     ofFill();
     
-    //ofPushMatrix();
-   // ofScale(scale,scale);
-   // ofTranslate(translate.x, translate.y);
     
-        
+    if(mode==1){
+        ofBackground(0);
+        displayLargePhotos();
+    }
+    
+  
+    else{
    
     if(displayLogo){
         drawLogo();
@@ -301,20 +317,6 @@ void testApp::draw(){
     }
     
     
-//    if(mode == 0){
-//        ofEnableAlphaBlending();
-//        ofSetColor(255,255,255,255);
-//        lgPhotos[lgIndex].draw();
-//        ofPushMatrix();
-//        ofTranslate(lgPhotos[lgIndex].dims.x, 0);
-//        
-//        lgPhotos[lgIndex2].draw();
-//        
-//        ofPopMatrix();
-//        ofDisableAlphaBlending();
-//        
-//    }
-    
     
     ofSetColor(160, 60, 0);
     ofRect(0, 0, w, headerHeight);
@@ -322,17 +324,14 @@ void testApp::draw(){
     ofSetColor(255);
    
     headerFont.drawString(headerText, headerTextX, headerHeight-(headerHeight/2-headerFont.getSize()/2));
-    
-    
-    keywords[featured].drawPhotos(gridX, gridY, dims.x, dims.y, headerHeight);
-    
+        
 
     drawPoints();
     
        keywords[featured].draw(din);
       
     
-   
+    }
     
    }
 
@@ -357,49 +356,7 @@ void testApp::keyPressed(int key){
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
     
-    
-    if(key == 'l'){
-    
-        //formLetters();
-    }
-    
-    
-    if(key == 'q'){
-    
-        cout<<logoPos.x<<" , "<<logoPos.y<<endl;
-    }
-    
-    
-    if(key=='r'){
-    for(int i = 0; i<numDisplay; i++){
-        //cout<<"t shape = "<<tShape<<", shape = "<<shape<<"\n";
-        scPhotos[i].shapeTrans("rect");
-       // scPhotos[i].process();
-    }
-    }
-    
-    if(key=='c'){
-        for(int i = 0; i<numDisplay; i++){
-            scPhotos[i].shapeTrans("circ");
-           // scPhotos[i].process();
-        }
-    }
-    
-    
-    if(key=='='){
-        scale+= .1;
-
-    }
-    if(key=='-'){
-        scale-= .1;
         
-    }
-
-    if(key == ' '){
-    
-        white=!white;
-    }
-    
 }
 
 //--------------------------------------------------------------
@@ -481,15 +438,7 @@ void testApp::switchKW(){
         //***get interview data array for chosen keyword
          vector<InterviewData> interviewDataArray = scData.getInterviewsWithKeyword(kw);
         
-        //vector<scPhoto> _interviews;
-       
-        /* for(int i=0; i<ofRandom(10,30); i++){
-            
-          _interviews.push_back(scPhotos[ofRandom(scPhotos.size())]);
-            
-        }*/
-        
-       
+              
         //keywords[k].getInterviews(_interviews);
         keywords[k].setFeatured(interviewDataArray);
          keywords[featured].setBg();
@@ -539,4 +488,46 @@ void testApp::drawPoints(){
     //pointMark=ofGetElapsedTimeMillis();
     
     
+}
+
+
+void testApp::switchLargePhotos(){
+    int p1 = ofRandom(0,images.size()/2);
+    int p2 = ofRandom(images.size()/2,images.size());
+    
+    lg1=images[p1];
+    lg2=images[p2];
+    
+}
+
+
+void testApp::displayLargePhotos(){
+    //lgPhotos[0].draw();
+    
+    int rectW = 20;
+    int lgPhotoX = ofGetWidth()/2-lg1.getWidth()-rectW/2;
+    
+    ofSetColor(255);
+    ofRect(lgPhotoX+lg1.getWidth(), headerHeight, rectW, lg1.getHeight());
+    lg1.draw(lgPhotoX, headerHeight, lg1.width, lg1.height);
+    lg2.draw(lg1.width+lgPhotoX+rectW, headerHeight, lg2.width, lg2.height);
+    
+    headerTextWidth = headerFont.getStringBoundingBox(headerText, 0, 0).width;
+    
+    headerTextX = w/2-headerTextWidth/2-rectW/2;
+    displayHeader(lgPhotoX, lg1.getWidth()*2+rectW);
+
+}
+
+void testApp::displayHeader(int _x, int _w){
+    
+    ofSetColor(160, 60, 0);
+    ofRect(_x, 0, _w, headerHeight);
+    
+    ofSetColor(255);
+    
+    
+    headerFont.drawString(headerText, headerTextX, headerHeight-(headerHeight/2-headerFont.getSize()/2));
+  
+
 }
